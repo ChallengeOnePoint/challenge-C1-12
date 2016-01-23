@@ -1,0 +1,156 @@
+var evenementsPlaces = {};
+var myCenterPlace;
+var maxLat = -90;
+var minLat = 90;
+var maxLng = -180;
+var minLng = 180;
+
+function convertAddresses()
+{
+    var deferreds = [];
+    var results = {};
+    evenementsPlaces = evenements;
+    $.each
+    (
+        evenements
+        ,
+        function(key, evenement)
+        {
+            dataToSend = 
+            {
+                address : evenement.center
+            };
+            setTimeout(
+                deferreds.push
+                (
+                    $.ajax
+                    (
+                        {
+                            url: "https://maps.googleapis.com/maps/api/geocode/json"
+                            ,
+                            data:dataToSend
+                            ,
+                            type: 'GET'
+                            ,
+                            success:function(data)
+                            {
+                                results[key] = data;
+                            }
+                        }
+                    )
+                )
+                ,
+                200
+            );
+        }
+    );
+    $.when.apply($, deferreds).done
+    (
+        function()
+        {
+            for(var evenement in results)
+            {                
+                if(results[evenement].status == "OK")
+                {
+                    var lat = results[evenement].results[0].geometry.location.lat;
+                    var lng = results[evenement].results[0].geometry.location.lng;
+                    var adresse = results[evenement].results[0].formatted_address;
+                    evenementsPlaces[evenement].center = new google.maps.LatLng(lat, lng);
+                    evenementsPlaces[evenement].centerIsValid = 1;
+                    evenementsPlaces[evenement].adresse = adresse;
+                    //on pourrait centrer la carte sur l'utilisateur
+                    minLng = Math.min(minLng, lng);
+                    maxLng = Math.max(maxLng, lng);
+                    minLat = Math.min(minLat, lat);
+                    maxLat = Math.max(maxLat, lat);
+                    myCenterPlace = new google.maps.LatLng((maxLat+minLat)/2, (maxLng+minLng)/2)
+                }
+                else
+                {
+                    console.log("Adresse ignorée car fantaisiste :"+evenementsPlaces[evenement].center)
+                }
+            }
+
+            drawMap();
+        }   
+    );
+}
+function drawMap()
+{
+    //Permet de centrer la carte
+    var mapOptions =
+    {
+        zoom: 12,
+        center: myCenterPlace
+    };
+
+    var map = new google.maps.Map
+    (
+        document.getElementById('carteDesEvenements'),
+        mapOptions
+    );
+
+    for (var evenement in evenementsPlaces)
+    {
+        if(evenementsPlaces[evenement].centerIsValid == 1)
+        {
+            if (evenementsPlaces[evenement].nomSport == "Basket ball") {
+            	var image = {
+                        url:"../images_sport/carte/basket.png"
+                    };
+            }
+            else {
+	            var image = {
+	                url:"../images_sport/carte/"+evenementsPlaces[evenement].nomSport+'.png'
+	            };
+        	}
+    
+    
+            var marker = new google.maps.Marker
+            (
+                {
+                    position: evenementsPlaces[evenement].center,
+                    map: map,
+                    icon: image,
+                    content:'<h3>'+evenementsPlaces[evenement].nom+'</h3>'+
+                    evenementsPlaces[evenement].description+'<br/><br/>'+
+                    'Sport : '+ evenementsPlaces[evenement].nomSport+'<br/>'+
+                    'Adresse : '+evenementsPlaces[evenement].adresse
+                }
+            );
+    
+            var contentString = evenement;
+    
+            var infowindow = new google.maps.InfoWindow
+            (
+                {
+                    content: contentString,
+                    maxWidth: 300,
+                    position :marker.center
+                }
+            );
+    
+            google.maps.event.addListener
+            (
+                marker, 
+                'mouseover', 
+                function()
+                {
+                    infowindow.setContent(this.content);
+                    infowindow.open(map,this);
+                }
+            );
+    
+            google.maps.event.addListener
+            (
+                marker, 
+                'mouseout', 
+                function()
+                {
+                    infowindow.close();
+                }
+            );
+        }
+    }
+}
+google.maps.event.addDomListener(window, 'load', convertAddresses);

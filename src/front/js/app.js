@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App', [
+var app = angular.module('App', [
   'ngRoute',
   'ui.bootstrap',
 ])

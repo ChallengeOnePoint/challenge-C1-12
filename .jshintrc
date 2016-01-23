@@ -1,0 +1,18 @@
+{
+	"node"          :true,
+    "maxerr"        : 50,
+    "bitwise"       : true,
+    "curly"         : true,
+    "eqeqeq"        : true,
+    "forin"         : true,
+
+    // Globals variables.
+    "globals": { 
+        "angular": true,
+        "app" : true,
+        "$"   : true,
+        "document" : true,
+        "window" : true
+
+    }
+}

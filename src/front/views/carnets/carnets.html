@@ -1,0 +1,26 @@
+<p>This is carnets view.</p>
+<div class="container" ng-controller="carnetsCtrl as ctrl">
+    <hr/>
+    <!-- LIST -->
+    <accordion close-others="true">
+        <accordion-group heading="carnets" is-open="true" ng-click="status.open = !status.open">
+            <div class="col-sm-4 col-sm-offset-0" ng-repeat="carnet in carnets">
+                <div id="carnet" class="row">
+                    <label>{{carnet}}</label>
+                </div>
+            </div>
+        </accordion-group>
+    </accordion>
+
+    <div class="col-sm-8 text-left">
+        <form>F
+          <input type="first_name" class="form-control" placeholder="name" ng-model="carnet.first_name">
+          <input type="last_name" class="form-control" placeholder="host" ng-model="carnet.last_name">
+          <input type="address" class="form-control" placeholder="port" ng-model="carnet.address">
+          <input type="email" class="form-control" placeholder="port" ng-model="carnet.email">
+          <input type="phone" class="form-control" placeholder="port" ng-model="carnet.phone">
+          <button type="submit" class="btn btn-primary" ng-click="ctrl.addcarnet()">save</button>
+        </form>
+      </div>
+    <hr/>
+</div>

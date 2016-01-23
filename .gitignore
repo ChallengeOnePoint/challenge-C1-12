@@ -1,3 +1,2 @@
 #Disallow node module to be added to any commit, it would be too heavy
 node_modules/
-bower_components/

@@ -6,7 +6,7 @@ angular.module('App', [
 ])
 
 .constant('constants', {
-  'server': 'http://localhost:3000',
+  'server': 'http://localhost:3000/api',
   'version': 0.1
 })
 

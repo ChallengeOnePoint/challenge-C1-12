@@ -11,7 +11,6 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
 carnets.insert({
 	  id : guid(),
 	  createDate : new Date().getTime(),

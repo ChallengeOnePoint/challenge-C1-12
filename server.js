@@ -9,5 +9,7 @@ app.configure(function() {
 	app.use(express.methodOverride());
 });
 
+require('./src/server/api/carnets/carnets.js')(app);
+
 app.listen(port);
 console.log("App listening on port " + port);

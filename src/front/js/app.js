@@ -2,7 +2,8 @@
 
 var app = angular.module('App', [
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'App.views.carnets'
 ]);
 
 app.constant('constants', {

@@ -2,7 +2,18 @@ var loki     = require('lokijs');
 var db       = new loki('carnets.json');
 var carnets = db.addCollection('carnets');
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
 carnets.insert({
+	  id : guid(),
 	  createDate : new Date().getTime(),
 		first_name : 'first_name',
 		last_name : 'last_name',
@@ -24,6 +35,7 @@ exports.create = function(carnet, callback) {
 	  console.log(carnet);
 		var err = '';
 		carnets.insert({
+			id : guid(),
 			createDate : new Date().getTime(),
 			first_name : cartnet.first_name,
 			last_name : carnet.last_name,

@@ -34,10 +34,10 @@ module.exports = function(app) {
 		});
 	});
 
-	app.delete('/api/carnets/:carnet_id', function(req, res) {
+	app.delete('/api/carnets/:id', function(req, res) {
 		console.log('remove');
 		model.remove({
-			_id : req.params.carnet_id
+			_id : req.params.id
 		}, function(err, carnet) {
 			if (err) {
 				res.send(err);

@@ -2,7 +2,7 @@ var model = require('./carnet');
 
 module.exports = function(app) {
 
-	app.get('/carnets', function(req, res) {
+	app.get('/api/carnets', function(req, res) {
 		console.log('get all');
 		model.find(function(err, carnets) {
 			if (err) {
@@ -12,7 +12,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.post('/carnets', function(req, res) {
+	app.post('/api/carnets', function(req, res) {
 		console.log('get');
 		model.create({
 			first_name : req.body.first_name,
@@ -34,7 +34,7 @@ module.exports = function(app) {
 		});
 	});
 
-	app.delete('/carnets/:carnet_id', function(req, res) {
+	app.delete('/api/carnets/:carnet_id', function(req, res) {
 		console.log('remove');
 		model.remove({
 			_id : req.params.carnet_id

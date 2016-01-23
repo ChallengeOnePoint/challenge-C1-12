@@ -3,6 +3,7 @@ var db       = new loki('carnets.json');
 var carnets = db.addCollection('carnets');
 
 carnets.insert({
+	  createDate : new Date().getTime(),
 		first_name : 'first_name',
 		last_name : 'last_name',
 		address : 'address',
@@ -23,6 +24,7 @@ exports.create = function(carnet, callback) {
 	  console.log(carnet);
 		var err = '';
 		carnets.insert({
+			createDate : new Date().getTime(),
 			first_name : cartnet.first_name,
 			last_name : carnet.last_name,
 			address : carnet.address,
